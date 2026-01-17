@@ -1,7 +1,7 @@
 // Feature flags for development and demo purposes
-// Set to false when connecting real backend auth
+// Set NEXT_PUBLIC_DEMO_MODE=false in .env.local when connecting real backend
 
-export const DEMO_AUTH_MODE = true;
+export const DEMO_AUTH_MODE = process.env.NEXT_PUBLIC_DEMO_MODE !== "false";
 
 // Mock session data for demo mode
 export const DEMO_SESSION = {

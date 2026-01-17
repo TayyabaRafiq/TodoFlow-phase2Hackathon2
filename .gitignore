@@ -11,8 +11,12 @@ dist/
 build/
 
 # Environment files (keep .env.example, ignore actual secrets)
+.env
 .env.local
 .env.*.local
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
 
 # IDE
 .idea/
