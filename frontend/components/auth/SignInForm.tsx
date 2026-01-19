@@ -67,12 +67,17 @@ export function SignInForm() {
     // Real auth mode: dynamically import and use Better Auth
     try {
       const { signIn } = await import("@/lib/auth");
+      console.log("Attempting sign in with:", values.email);
+
       const result = await signIn.email({
         email: values.email,
         password: values.password,
       });
 
+      console.log("Sign in result:", result);
+
       if (result.error) {
+        console.error("Sign in error:", result.error);
         if (result.error.message?.includes("invalid") || result.error.message?.includes("credentials")) {
           setSubmitError("Invalid email or password");
         } else {
@@ -82,8 +87,10 @@ export function SignInForm() {
       }
 
       // Redirect to dashboard on success
+      console.log("Sign in successful, redirecting to dashboard...");
       router.push("/dashboard");
-    } catch {
+    } catch (error) {
+      console.error("Sign in catch error:", error);
       setSubmitError("An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
