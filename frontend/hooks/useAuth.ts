@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import { DEMO_AUTH_MODE, DEMO_SESSION } from "@/lib/config";
+import { useSession } from "@/lib/auth";
 
 interface User {
   id: string;
@@ -22,12 +23,8 @@ interface UseAuthReturn {
 }
 
 export function useAuth(): UseAuthReturn {
-  const [isMounted, setIsMounted] = useState(false);
-
-  // Track client-side mount to prevent hydration mismatch
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  // Use Better Auth's useSession hook for real auth mode
+  const { data: betterAuthSession, isPending: betterAuthPending } = useSession();
 
   const signOut = useCallback(async () => {
     if (DEMO_AUTH_MODE) {
@@ -37,21 +34,12 @@ export function useAuth(): UseAuthReturn {
     // Real auth: dynamically import and call signOut
     const { signOut: betterAuthSignOut } = await import("@/lib/auth");
     await betterAuthSignOut();
+    // Redirect to sign-in after sign out
+    window.location.href = "/sign-in";
   }, []);
 
-  // Demo mode: consistent SSR/client render
+  // Demo mode: return demo session
   if (DEMO_AUTH_MODE) {
-    // Before mount: return neutral loading state (matches server)
-    if (!isMounted) {
-      return {
-        session: null,
-        isPending: true,
-        isDemo: true,
-        signOut,
-      };
-    }
-
-    // After mount: return demo session
     return {
       session: DEMO_SESSION as Session,
       isPending: false,
@@ -60,11 +48,10 @@ export function useAuth(): UseAuthReturn {
     };
   }
 
-  // Real auth mode (Phase 3+): would use Better Auth hooks here
-  // For now, return unauthenticated state
+  // Real auth mode: use Better Auth session
   return {
-    session: null,
-    isPending: false,
+    session: betterAuthSession ? { user: betterAuthSession.user as User } : null,
+    isPending: betterAuthPending,
     isDemo: false,
     signOut,
   };
