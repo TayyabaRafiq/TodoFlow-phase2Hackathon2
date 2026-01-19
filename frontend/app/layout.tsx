@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "TodoFlow",
-  description: "Organize your work with TodoFlow - a simple, powerful task manager",
+  description: "Organize your work with TodoFlow - a simple, powerful task manager"
 };
 
 export default function RootLayout({
