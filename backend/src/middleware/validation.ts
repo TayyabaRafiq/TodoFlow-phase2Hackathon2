@@ -15,9 +15,9 @@ export function validateBody<T>(schema: ZodSchema<T>) {
         const response: ApiError = {
           code: "VALIDATION_ERROR",
           message: "Validation failed",
-          errors: error.errors.map((e) => ({
-            field: e.path.join("."),
-            message: e.message,
+          errors: error.issues.map((issue) => ({
+            field: issue.path.join("."),
+            message: issue.message,
           })),
         };
         res.status(400).json(response);
@@ -41,9 +41,9 @@ export function validateParams<T>(schema: ZodSchema<T>) {
         const response: ApiError = {
           code: "VALIDATION_ERROR",
           message: "Invalid parameters",
-          errors: error.errors.map((e) => ({
-            field: e.path.join("."),
-            message: e.message,
+          errors: error.issues.map((issue) => ({
+            field: issue.path.join("."),
+            message: issue.message,
           })),
         };
         res.status(400).json(response);
