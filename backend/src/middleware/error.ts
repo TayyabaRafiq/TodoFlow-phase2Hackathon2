@@ -28,9 +28,9 @@ export const errorHandler: ErrorRequestHandler = (
     const response: ApiError = {
       code: "VALIDATION_ERROR",
       message: "Validation failed",
-      errors: err.errors.map((e) => ({
-        field: e.path.join("."),
-        message: e.message,
+      errors: err.issues.map((issue) => ({
+        field: issue.path.join("."),
+        message: issue.message,
       })),
     };
     res.status(400).json(response);

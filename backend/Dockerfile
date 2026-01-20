@@ -9,6 +9,7 @@ RUN apk add --no-cache openssl
 COPY package*.json ./
 
 # Install ALL dependencies (including dev for build)
+
 RUN npm ci
 
 # Copy prisma schema and generate client

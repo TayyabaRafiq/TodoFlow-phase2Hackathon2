@@ -70,8 +70,8 @@ router.patch(
   validateBody(updateTaskSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
-      const userId = req.user!.id;
+      const id = req.params.id as string;
+      const userId = req.user!.id as string;
       const updates = req.body as UpdateTaskInput;
 
       // Find task and verify ownership
@@ -112,8 +112,8 @@ router.delete(
   validateParams(taskIdSchema),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id } = req.params;
-      const userId = req.user!.id;
+      const id = req.params.id as string;
+      const userId = req.user!.id as string;
 
       // Find task and verify ownership
       const existingTask = await prisma.task.findFirst({

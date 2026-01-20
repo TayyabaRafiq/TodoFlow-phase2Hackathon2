@@ -64,9 +64,10 @@ app.use("/api/tasks", apiRateLimiter, taskRouter);
 // Error handler (must be last)
 app.use(errorHandler);
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+// Start server - bind to 0.0.0.0 for Docker containers
+const HOST = "0.0.0.0";
+app.listen(Number(PORT), HOST, () => {
+  console.log(`Server running on http://${HOST}:${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
 });
 
