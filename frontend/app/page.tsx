@@ -45,12 +45,7 @@ export default function LandingPage() {
       {/* Hero Section */}
       <main className="px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl pt-16 pb-24 sm:pt-24 sm:pb-32 text-center">
-          {/* Badge */}
-          <div className="mb-8">
-            <span className="inline-flex items-center rounded-full bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20">
-              Phase 2 Demo Mode
-            </span>
-          </div>
+          
 
           {/* Heading */}
           <h1 className="text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl md:text-6xl">
@@ -94,10 +89,7 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          {/* Demo note */}
-          <p className="mt-6 text-sm text-neutral-500">
-            No account required for demo mode. Try it instantly!
-          </p>
+          
         </div>
 
         {/* Feature highlights */}
