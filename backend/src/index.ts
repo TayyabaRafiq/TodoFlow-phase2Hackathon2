@@ -1,5 +1,9 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import express from "express";
+
+// Load .env.local first (takes precedence), then .env
+dotenv.config({ path: ".env.local" });
+dotenv.config();
 import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./auth.js";
@@ -33,8 +37,22 @@ app.use(
 
 // Better Auth handler - must be before JSON body parser for /api/auth routes
 // Apply stricter rate limiting to auth endpoints
-app.use("/api/auth", authRateLimiter, (req, res, next) => {
-  toNodeHandler(auth)(req, res);
+app.use("/api/auth", authRateLimiter, async (req, res, next) => {
+  console.log(`📨 Auth Request: ${req.method} ${req.originalUrl} (path: ${req.path})`);
+
+  try {
+    await toNodeHandler(auth)(req, res);
+  } catch (error) {
+    console.error("❌ Better Auth Error:", {
+      path: req.path,
+      method: req.method,
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
+    // Let the error handler middleware handle the response
+    next(error);
+  }
 });
 
 // JSON body parser
