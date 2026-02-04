@@ -59,4 +59,4 @@ The project constitution originally specified FastAPI (Python) for the backend. 
 1. **Better Auth Compatibility**: The frontend uses `better-auth/react` client which requires a JavaScript/TypeScript backend. Better Auth doesn't have a Python adapter.
 2. **Seamless Integration**: Using the same language (TypeScript) across frontend and backend simplifies authentication flow and type sharing.
 
-This deviation is documented in `specs/001-backend-api/research.md`.
+This deviation is documented in .`specs/001-backend-api/research.md`.
