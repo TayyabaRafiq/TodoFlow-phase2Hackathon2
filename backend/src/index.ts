@@ -18,18 +18,27 @@ const PORT = process.env.PORT || 8000;
 // This ensures req.protocol and req.secure are correct for HTTPS
 app.set('trust proxy', 1);
 
-// CORS configuration - allow both port 3000 and 3001 for development
+// CORS configuration - allow requests from frontend and Vercel proxy
 const allowedOrigins = [
   process.env.CORS_ORIGIN || "http://localhost:3000",
   "http://localhost:3001",
+  // Vercel deployment URLs (frontend)
+  "https://frontend-rho-five-50.vercel.app",
 ];
+
+console.log("🔒 CORS allowed origins:", allowedOrigins);
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like curl) or from allowed origins
+      console.log("📨 Request from origin:", origin || "(no origin - server-to-server)");
+
+      // Allow requests with no origin (Vercel proxy, curl, server-to-server)
+      // OR from allowed origins
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.error("❌ CORS blocked origin:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
