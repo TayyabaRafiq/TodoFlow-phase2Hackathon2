@@ -86,9 +86,13 @@ export function SignInForm() {
         return;
       }
 
+      // Wait for session to be established before redirecting
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       // Redirect to dashboard on success
       console.log("Sign in successful, redirecting to dashboard...");
-      router.push("/dashboard");
+      // Use window.location for full page reload to ensure session is loaded
+      window.location.href = "/dashboard";
     } catch (error) {
       console.error("Sign in catch error:", error);
       setSubmitError("An unexpected error occurred. Please try again.");

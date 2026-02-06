@@ -95,8 +95,12 @@ export function SignUpForm() {
         return;
       }
 
-      // Redirect to dashboard on success
-      router.push("/dashboard");
+      // Wait for session to be established before redirecting
+      // This ensures the cookie is set and session is ready
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // Use window.location for full page reload to ensure session is loaded
+      window.location.href = "/dashboard";
     } catch {
       setSubmitError("An unexpected error occurred. Please try again.");
     } finally {
