@@ -1,12 +1,18 @@
 import { createAuthClient } from "better-auth/react";
 
-// Better Auth client expects the base URL without /api/auth path
-// When using Vercel rewrites, use empty string to make requests to same origin
+// Better Auth client configuration
+// When using Vercel rewrites (NEXT_PUBLIC_API_URL=/api), use current origin
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
-const BASE_URL = API_URL === "/api" ? "" : API_URL.replace("/api", "");
+const isRelativeURL = API_URL.startsWith("/");
+
+// For relative URLs (proxied via Vercel), use window.location.origin
+// For absolute URLs (direct to backend), use the URL without /api
+const BASE_URL = isRelativeURL
+  ? (typeof window !== "undefined" ? window.location.origin : "")
+  : API_URL.replace("/api", "");
 
 console.log("Demo Mode:", process.env.NEXT_PUBLIC_DEMO_MODE);
-console.log("Auth client BASE_URL:", BASE_URL || "(same-origin via Vercel proxy)");
+console.log("Auth client BASE_URL:", BASE_URL);
 
 export const authClient = createAuthClient({
   baseURL: BASE_URL,
