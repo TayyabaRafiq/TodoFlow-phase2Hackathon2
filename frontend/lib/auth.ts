@@ -8,6 +8,9 @@ console.log("Auth client BASE_URL:", BASE_URL);
 
 export const authClient = createAuthClient({
   baseURL: BASE_URL,
+  fetchOptions: {
+    credentials: "include",
+  },   
 });
 
 export const {
@@ -16,3 +19,4 @@ export const {
   signOut,
   useSession,
 } = authClient;
+
