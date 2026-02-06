@@ -21,6 +21,18 @@ export const auth = betterAuth({
       maxAge: 5 * 60, // 5 minutes
     },
   },
+  cookies: {
+  sessionToken: {
+    name: "better-auth.session-token",
+    options: {
+      httpOnly: true,
+      secure: true,      // HTTPS required (Vercel + HF)
+      sameSite: "none",  // Cross-domain ke liye MUST
+      path: "/",
+    },
+  },
+},
+
   // Better Auth automatically configures cookies correctly for cross-domain
   // when baseURL (HTTPS) and trustedOrigins are set properly
 });
