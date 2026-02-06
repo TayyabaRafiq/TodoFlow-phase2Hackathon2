@@ -21,16 +21,8 @@ export const auth = betterAuth({
       maxAge: 5 * 60, // 5 minutes
     },
   },
-  // Cross-domain cookie configuration for production (Vercel ↔ HF)
-  // This applies to ALL cookies (session_token AND session_data)
-  advanced: {
-    cookieOptions: {
-      sameSite: "none",  // CRITICAL: Allows cross-domain cookies
-      secure: true,      // HTTPS only (required for SameSite=none)
-      httpOnly: true,    // Security: prevents XSS access
-      path: "/",         // Available to all routes
-    },
-  },
+  // Better Auth automatically configures cookies correctly for cross-domain
+  // when baseURL (HTTPS) and trustedOrigins are set properly
 });
 
 export type Session = typeof auth.$Infer.Session;
