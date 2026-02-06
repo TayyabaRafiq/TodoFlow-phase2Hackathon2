@@ -14,6 +14,10 @@ import taskRouter from "./routes/tasks.js";
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// Trust proxy - Required for HuggingFace Spaces (runs behind reverse proxy)
+// This ensures req.protocol and req.secure are correct for HTTPS
+app.set('trust proxy', 1);
+
 // CORS configuration - allow both port 3000 and 3001 for development
 const allowedOrigins = [
   process.env.CORS_ORIGIN || "http://localhost:3000",

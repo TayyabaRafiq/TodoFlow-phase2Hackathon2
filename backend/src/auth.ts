@@ -14,6 +14,15 @@ export const auth = betterAuth({
     process.env.CORS_ORIGIN || "http://localhost:3000",
     "http://localhost:3001", // fallback port
   ],
+  // Cross-domain cookie configuration for production (Vercel ↔ HF)
+  advanced: {
+    cookieOptions: {
+      secure: true,      // HTTPS only (required for SameSite=none)
+      sameSite: "none",  // CRITICAL: Allows cross-domain cookies
+      httpOnly: true,    // Security: prevents XSS access
+      path: "/",         // Available to all routes
+    },
+  },
   session: {
     cookieCache: {
       enabled: true,
